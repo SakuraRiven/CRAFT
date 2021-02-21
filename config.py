@@ -1,0 +1,71 @@
+from easydict import EasyDict as edict
+
+cfg = edict()
+
+cfg.utils = edict()
+cfg.utils.eps = 1e-8
+cfg.utils.sigma_den = 4
+cfg.utils.gaussian_length = 100
+cfg.utils.pixel_aug = 1
+cfg.utils.min_box_len = 1.5
+cfg.utils.fore_ratio = 0.75
+cfg.utils.back_ratio = 0.05
+cfg.utils.ignored_gt = ['###', '']
+
+cfg.train = edict()
+cfg.train.synthtext_img_path = '../data/SynthText'
+cfg.train.synthtext_gt_path = '../data/SynthText'
+cfg.train.scale = 0.5
+cfg.train.crop_length = 640
+cfg.train.mean = [0.5, 0.5, 0.5]
+cfg.train.std = [0.25, 0.25, 0.25]
+cfg.train.batch_size = 16
+cfg.train.num_workers = 4
+cfg.train.drop_last = True
+cfg.train.shuffle = True
+cfg.train.lr = 0.001
+cfg.train.epoch_iter = 2
+cfg.train.milestones = [0.5, 1.5]
+cfg.train.gamma = 0.1
+cfg.train.pths_path = './pths/pretrain'
+cfg.train.save_interval = 1000
+
+cfg.ft = edict()
+cfg.ft.icdar2013_img_path = '../data/ICDAR2013/train_img'
+cfg.ft.icdar2013_gt_path = '../data/ICDAR2013/train_gt'
+cfg.ft.icdar2017_img_path = ['../data/ICDAR2017/train_img', '../data/ICDAR2017/valid_img']
+cfg.ft.icdar2017_gt_path = ['../data/ICDAR2017/train_gt', '../data/ICDAR2017/valid_gt']
+cfg.ft.ratio_17 = 10
+cfg.ft.gpu_ids = [0,1,2] # first is supervision
+cfg.ft.pretrain_pth = './pths/pretrain/model_iter_50000.pth'
+cfg.ft.freeze_stage_num = 1 # <5
+cfg.ft.conf_min = 0.5
+cfg.ft.mix_prob = 0.16
+cfg.ft.pos_min = cfg.utils.eps
+cfg.ft.neg_ratio = 3
+cfg.ft.height_jitter = 0.3
+cfg.ft.color_jitter = [0.25, 0.25, 0.25, 0.125]
+cfg.ft.angle_range = 15
+cfg.ft.scale = 0.5
+cfg.ft.min_length = 640
+cfg.ft.max_length = 2240
+cfg.ft.crop_length = 640
+cfg.ft.mean = [0.5, 0.5, 0.5]
+cfg.ft.std = [0.25, 0.25, 0.25]
+cfg.ft.batch_size = 8
+cfg.ft.drop_last = True
+cfg.ft.shuffle = True
+cfg.ft.lr = 0.0001
+cfg.ft.epoch_iter = 400
+cfg.ft.pths_path = './pths/ft/'
+cfg.ft.save_interval = 50
+
+cfg.test = edict()
+cfg.test.model_pth = './pths/ft/model_iter_31600.pth'
+cfg.test.dataset_test_path = '../data/ICDAR2013/test_img'
+cfg.test.submit_path = './submit'
+cfg.test.save_dataset_res = True
+cfg.test.region_thresh = 0.09
+cfg.test.affinity_thresh = 0.07
+cfg.test.remove_thresh = 6 * 1e-4
+cfg.test.long_side = 960
